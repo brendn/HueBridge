@@ -1,5 +1,4 @@
-package dog.brendan.hue.hue.model;
-
+package dog.brendan.hue.api.model;
 
 public class Light {
 
@@ -19,6 +18,10 @@ public class Light {
 
     public LightState getState() {
         return state;
+    }
+
+    public void setState(LightState state) {
+        this.state = state;
     }
 
     public String getId() {

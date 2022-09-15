@@ -1,4 +1,4 @@
-package dog.brendan.hue.hue.model;
+package dog.brendan.hue.api.model;
 
 public class LightState {
 
@@ -12,20 +12,20 @@ public class LightState {
 
     private int sat;
 
+    public LightState(boolean on, boolean reachable, int bri, int hue, int sat) {
+        this.on = on;
+        this.reachable = reachable;
+        this.bri = bri;
+        this.hue = hue;
+        this.sat = sat;
+    }
+
     public boolean isOn() {
         return on;
     }
 
-    public void setOn(boolean on) {
-        this.on = on;
-    }
-
     public boolean isReachable() {
         return reachable;
-    }
-
-    public void setReachable(boolean reachable) {
-        this.reachable = reachable;
     }
 
     public int getBri() {

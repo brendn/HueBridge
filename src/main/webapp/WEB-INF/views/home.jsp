@@ -11,7 +11,7 @@
 <body>
 	<h1>Hue Bridge: ${bridge.config.name}</h1>
  	<c:forEach var="light" items="${lights}" varStatus="loop">
-		<p><a href="/toggle/${light.id}">${light.id} /// ${light.name}</a></p>
+		<p><a href="/toggle/${light.id}">[${light.id}] ${light.name} (On: ${light.state.on})</a></p>
 	</c:forEach>
 </body>
 </html>

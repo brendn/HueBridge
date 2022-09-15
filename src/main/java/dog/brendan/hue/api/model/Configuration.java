@@ -1,4 +1,4 @@
-package dog.brendan.hue.hue.model;
+package dog.brendan.hue.api.model;
 
 public class Configuration {
 

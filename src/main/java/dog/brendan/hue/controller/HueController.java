@@ -1,15 +1,12 @@
 package dog.brendan.hue.controller;
 
-import dog.brendan.hue.hue.HueService;
-import dog.brendan.hue.hue.model.HueBridge;
-import dog.brendan.hue.hue.model.Light;
+import dog.brendan.hue.api.HueService;
+import dog.brendan.hue.api.model.Light;
+import dog.brendan.hue.exception.LightNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Random;
 
 @Controller
 public class HueController {
@@ -28,7 +25,8 @@ public class HueController {
 
     @RequestMapping("/toggle/{id}")
     private String toggleLight(@PathVariable("id") String id) {
-        service.setLightState(Integer.parseInt(id), true);
+        Light light = service.getLight(Integer.parseInt(id)).orElseThrow(LightNotFoundException::new);
+        service.setLightState(Integer.parseInt(id), !light.getState().isOn());
         return "redirect:/";
     }
 }
