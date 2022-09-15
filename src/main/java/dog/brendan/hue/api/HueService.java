@@ -46,7 +46,7 @@ public class HueService {
             var state = light.get("state").getAsJsonObject();
             var lightState = new LightState(state.get("on").getAsBoolean(), state.get("reachable").getAsBoolean(),
                     state.get("bri").getAsInt(), state.get("hue").getAsInt(), state.get("sat").getAsInt());
-            var lightObj = new Light(entry.getKey(), light.get("name").toString(), light.get("type").toString());
+            var lightObj = new Light(entry.getKey(), light.get("type").toString(), light.get("name").toString());
             lightObj.setState(lightState);
             out.add(lightObj);
         }
