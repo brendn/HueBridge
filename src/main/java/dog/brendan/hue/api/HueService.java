@@ -1,10 +1,10 @@
 package dog.brendan.hue.api;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import dog.brendan.hue.api.model.HueBridge;
 import dog.brendan.hue.api.model.Light;
-import dog.brendan.hue.api.model.LightState;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
@@ -29,6 +29,7 @@ public class HueService {
     private String url;
 
     private static final String REQUEST_ONOFF = "{\"on\":%s}";
+    private static final String REQUEST_NAME = "{\"name\":\"%s\"}";
 
     private final RestTemplate template = new RestTemplate();
 
@@ -40,15 +41,13 @@ public class HueService {
         List<Light> out = new ArrayList<>();
         ResponseEntity<String> rawJson = template.exchange(url + key + "/lights/", HttpMethod.GET, null,
                 new ParameterizedTypeReference<>() {});
+
         var json = JsonParser.parseString(rawJson.getBody()).getAsJsonObject();
+
         for (Map.Entry<String, JsonElement> entry : json.entrySet()) {
-            var light = entry.getValue().getAsJsonObject();
-            var state = light.get("state").getAsJsonObject();
-            var lightState = new LightState(state.get("on").getAsBoolean(), state.get("reachable").getAsBoolean(),
-                    state.get("bri").getAsInt(), state.get("hue").getAsInt(), state.get("sat").getAsInt());
-            var lightObj = new Light(entry.getKey(), light.get("type").toString(), light.get("name").toString());
-            lightObj.setState(lightState);
-            out.add(lightObj);
+            var light = new Gson().fromJson(entry.getValue(), Light.class);
+            light.setID(entry.getKey());
+            out.add(light);
         }
         return out;
     }
@@ -67,5 +66,11 @@ public class HueService {
         var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         template.put(url + key + "/lights/" + lightID + "/state", String.format(REQUEST_ONOFF, on));
+    }
+
+    public void setLightName(int lightID, String name) {
+        var headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        template.put(url + key + "/lights/" + lightID, String.format(REQUEST_NAME, name));
     }
 }

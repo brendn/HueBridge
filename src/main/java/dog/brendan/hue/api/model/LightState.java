@@ -2,14 +2,26 @@ package dog.brendan.hue.api.model;
 
 public class LightState {
 
+    /**
+     * true if the light should be on.
+     */
     private boolean on;
 
     private boolean reachable;
 
+    /**
+     * brightness, in range 0 - 254. 0 is not off.
+     */
     private int bri;
 
+    /**
+     * hue, in range 0 - 65535.
+     */
     private int hue;
 
+    /**
+     * saturation, in range 0 - 254.
+     */
     private int sat;
 
     public LightState(boolean on, boolean reachable, int bri, int hue, int sat) {

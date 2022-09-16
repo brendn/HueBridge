@@ -29,4 +29,18 @@ public class HueController {
         service.setLightState(Integer.parseInt(id), !light.getState().isOn());
         return "redirect:/";
     }
+
+    @RequestMapping("/edit/{id}")
+    private String editLight(@PathVariable("id") String id, Model model) {
+        Light light = service.getLight(Integer.parseInt(id)).orElseThrow(LightNotFoundException::new);
+        model.addAttribute("light", light);
+        return "edit";
+    }
+
+    @PostMapping("/edit")
+    private String pushEdits(@RequestParam String id, @RequestParam String name) {
+        //TODO setLightName
+        service.setLightName(Integer.parseInt(id), name);
+        return "redirect:/";
+    }
 }

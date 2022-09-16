@@ -16,6 +16,10 @@ public class Light {
         this.name = name;
     }
 
+    public void setID(String id) {
+        this.id = id;
+    }
+
     public LightState getState() {
         return state;
     }
